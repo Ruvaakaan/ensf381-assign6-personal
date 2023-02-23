@@ -1,20 +1,17 @@
 import { useState } from "react";
+import uuid from "react";
 
-function Side() {
+function Side({noteList, addNote}) {
+
   const [hovered, setHovered] = useState(false);
-  const [notes, setNotes] = useState([]);
-
-  const addNote = () => {
-    const newNote = { title: "Untitled", date: new Date(), content: "" };
-    setNotes([...notes, newNote]);
-  };
   
   return (
     <>
       <div id="sideBox">
         <div id="sideTitle">
-          &nbsp;&nbsp;Notes
+          &nbsp;Notes
           <button 
+            onClick={addNote}
             id="addNote"
             onMouseEnter={() => setHovered(true)}
             onMouseLeave={() => setHovered(false)}
@@ -25,15 +22,23 @@ function Side() {
             }}
           >+</button>
         </div>
-        {/* <div id="sideData">
-          {notes.map((note, index) => (
-            <div key={index}>
-              <div>{note.title}</div>
-              <div>{note.date.toLocaleDateString()}</div>
-              <div>{note.content}</div>
+        
+          {noteList.map((note) => (
+            <div id="sideData" key={note.id}>
+              <div id="noteTitle">{note.title}</div>
+              {/* need to add function/state that wont show the date until i've saved the note */}
+              <div id="lastModified">{new Date(note.lastModified).toLocaleString('en-US', {
+                month: 'long',
+                day: 'numeric',
+                year: 'numeric',
+                hour: 'numeric',
+                minute: 'numeric',
+                hour12: true
+              })}
+              </div>
+              <div id="noteBody">{note.body && note.body.substr(0, 100) + "..."}</div>
             </div>
           ))}
-        </div> */}
       </div>
     </>
   )

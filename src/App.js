@@ -1,7 +1,33 @@
+import { useState } from "react";
+import uuid from "react-uuid";
 import Side from "./Side";
 import Main from "./Main";
 
-function App() {
+
+
+function App() 
+{
+  const [noteList, setNoteList] = useState([]);
+
+  function addNote()
+  {
+    const newNote = {
+      id: uuid(),
+      title: "Untitled",
+      body: " ",
+      lastModified: Date.now()
+    };
+    console.log(newNote);
+
+    setNoteList([newNote, ...noteList]);
+
+  };  
+
+  function deleteNote(deleteId)
+  {
+    setNoteList(noteList.filter((note) => note.id != deleteId));
+  }
+
   return (
     <>
       <div id="top">
@@ -12,8 +38,8 @@ function App() {
         </div>
       </div>
       <div id="middle">
-        <Side></Side>
-        <Main></Main>
+        <Side noteList={noteList} addNote={addNote}></Side>
+        <Main noteList={noteList} deleteNote={deleteNote}></Main>
       </div>
     </>
   );

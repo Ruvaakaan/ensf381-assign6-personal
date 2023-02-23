@@ -6,6 +6,8 @@ body {
   /* background-color: aqua; */
 }
 
+/* TOP OF PAGE */
+
 #top {
   display: flex;
   justify-content: center;
@@ -41,6 +43,8 @@ body {
   margin-left: 15px;
 }
 
+/* SIDE OF PAGE */
+
 #enableSide {
   cursor: pointer;
   border: none;
@@ -57,18 +61,18 @@ body {
   flex-direction: column;
   border-right: 2px solid#EDEDED;
   position: relative;
-
 }
 
 #sideTitle {
   display: flex;
-  font-size: 25px;
+  font-size: 23px;
   font-weight: 700;
-  border-bottom: 2px solid#EDEDED;
   padding-bottom: 7px;
   padding-top: 7px;
   /* background-color: aqua; */
   position: relative;
+  border-bottom: 2px solid#EDEDED;
+
 }
 
 #addNote {
@@ -78,7 +82,7 @@ body {
   font-size: x-large;
   right: 0;
   position: absolute;
-  font-size: 25px;
+  font-size: 20px;
   top: 0;
   bottom: 0;
   width: 50px;
@@ -86,18 +90,67 @@ body {
 
 #sideData {
   display: flex;
+  /* background-color: darkorchid; */
+  flex-direction: column;
+  border-bottom: 2px solid#EDEDED;
 }
+
+#noteTitle {
+  margin-top: 3px;
+  font-size: 20px;
+  font-weight: 700;
+  /* background-color: aqua; */
+  margin-left: 7px;
+}
+
+#lastModified {
+  font-size: 12px;
+  font-weight: 500;
+  color: #717171;
+  /* background-color: palegreen; */
+  margin-bottom: 5px;
+  margin-left: 7px;
+}
+
+#noteBody {
+  font-size: 14px;
+  /* background-color: aquamarine; */
+  margin-bottom: 5px;
+  margin-left: 7px;
+}
+
+/* MAIN OF PAGE */
+
 
 #mainBox {
   width: 83%;
   /* background-color: darkgoldenrod; */
   height: 100vh;
+  display: flex;
 }
 
-#middle {
-  display: flex;
-  /* background-color: royalblue; */
+#noteTop {
+
 }
+
+#noteEdit {
+
+}
+
+#noteWrite {
+  display: block;
+}
+
+
+
+
+
+
+
+
+
+
+
 
 p {
   margin: 0;
