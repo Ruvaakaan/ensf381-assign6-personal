@@ -43,6 +43,12 @@ body {
   margin-left: 15px;
 }
 
+/* MIDDLE OF PAGE */
+
+#middle {
+  display: flex;
+}
+
 /* SIDE OF PAGE */
 
 #enableSide {
@@ -65,7 +71,7 @@ body {
 
 #sideTitle {
   display: flex;
-  font-size: 23px;
+  font-size: 26px;
   font-weight: 700;
   padding-bottom: 7px;
   padding-top: 7px;
@@ -88,12 +94,30 @@ body {
   width: 50px;
 }
 
-#sideData {
+#addNote:hover {
+  color: white;
+  background-color: #423C52;
+}
+
+.sideData {
   display: flex;
   /* background-color: darkorchid; */
   flex-direction: column;
   border-bottom: 2px solid#EDEDED;
 }
+
+.sideData.active {
+  flex-direction: column;
+  border-bottom: 2px solid#EDEDED;
+  background-color: #423C52;
+  color: white;
+}
+
+.sideData:hover {
+  background-color: #423C52;
+  color: white;
+}
+
 
 #noteTitle {
   margin-top: 3px;
@@ -121,27 +145,91 @@ body {
 
 /* MAIN OF PAGE */
 
-
 #mainBox {
   width: 83%;
   /* background-color: darkgoldenrod; */
   height: 100vh;
   display: flex;
+  flex-direction: column;
 }
 
 #noteTop {
-
+  /* background-color: darkblue; */
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 2px solid#EDEDED;
+  align-items: center;
+  flex-direction: row;
 }
+
+#noteTopText {
+  border: none;
+  background-color: transparent;
+  box-shadow: none;
+  outline: none;
+  font-size: 24px;
+  padding-left: 10px;
+  font-weight: 600;
+}
+
+#noteTopText::placeholder {
+  color: black;
+}
+
+#currentDate {
+  font-size: small;
+  padding-left: 10px;
+  font-family: 'Courier New', Courier, monospace;
+  font-weight: bold;
+}
+
+#deleteNote {
+  cursor: pointer;
+  border: none;
+  background-color: inherit;
+  width: 60px;
+  height: 60px;
+  font-size: medium;
+}
+
+#deleteNote:hover {
+  background-color: #423C52;
+  color: white;
+}
+
+#saveNote {
+  cursor: pointer;
+  border: none;
+  background-color: inherit;
+  width: 60px;
+  height: 60px;
+  font-size: medium;
+}
+
+#saveNote:hover {
+  background-color: #423C52;
+  color: white;
+}
+
 
 #noteEdit {
+  /* background-color: blueviolet; */
+  margin: -1px;
+  /* margin-right: -1px; */
 
 }
 
-#noteWrite {
-  display: block;
+.ql-container.ql-snow {
+  border: none !important;
+  height: calc(100vh-100);
+  border: 2px solid#EDEDED;
+  margin-left: -1px;
+  padding: 0;
 }
 
-
+ql-toolbar.ql-snow { 
+  border: none !important;
+}
 
 
 
