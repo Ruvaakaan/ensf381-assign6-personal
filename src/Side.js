@@ -1,8 +1,25 @@
 import { useState } from "react";
 import uuid from "react";
 
-function Side({noteList, addNote, currentNote, setCurrentNote}) 
+function Side({noteList, addNote, currentNote, setCurrentNote, newNoteAdded}) 
 {
+
+  if (!newNoteAdded || noteList.length == 0) {
+    return (
+
+      <div id="sideBox">
+        <div id="sideTitle">
+          &nbsp;Notes
+          <button 
+            onClick={addNote}
+            id="addNote"
+          >+</button>
+        </div>
+        <div id="sideNoteMessage">No Note Yet.</div>
+      </div>
+
+    );
+  }
   
   return (
     <>

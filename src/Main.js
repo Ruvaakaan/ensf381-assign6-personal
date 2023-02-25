@@ -1,14 +1,31 @@
 import { useState } from 'react';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
+import Calendar from "react-calendar";
+import "react-calendar/dist/Calendar.css";
+import { FaCalendarAlt } from 'react-icons/fa';
 
-function Main({noteList, saveNote, deleteNote}) {
+function Main({noteList, saveNote, deleteNote, newNoteAdded}) {
 
   const [noteContent, setNoteContent] = useState('');
+  const [date, setDate] = useState(new Date());
+  const [showCalendar, setShowCalendar] = useState(false);
 
   const handleChange = (value) => {
     setNoteContent(value);
   };
+
+  const handleCalendarButtonClick = () => {
+    setShowCalendar(!showCalendar);
+  }
+
+  if (!newNoteAdded || noteList.length == 0) {
+    return (
+      <div id="mainBox">
+        <div id="mainNoteMessage">Select a note, or create a new one.</div>
+      </div>
+    );
+  }
 
   return (
     <>
@@ -40,12 +57,25 @@ function Main({noteList, saveNote, deleteNote}) {
                 onClick={() => deleteNote(note.id)}
                 id="deleteNote"
                 >Delete</button>
+                <button 
+                onClick={handleCalendarButtonClick}
+                id="calendarButton"
+                ><FaCalendarAlt /></button>
               </div>
             </div>
               
             <div id="noteEdit">
-              <ReactQuill placeholder="Write your note here..." value={noteContent} onChange={handleChange} />
+              <ReactQuill 
+              placeholder="Write your note here..." 
+              value={noteContent} 
+              onChange={handleChange} />
             </div>
+
+            {showCalendar && 
+              <div id="calendarWrapper">
+                <Calendar value={date} onChange={setDate} />
+              </div>
+            }
         </div>
 
       ))}

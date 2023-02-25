@@ -69,6 +69,14 @@ body {
   position: relative;
 }
 
+#sideNoteMessage {
+  font-size: 1.5rem;
+  font-weight: bold;
+  text-align: center;
+  color: #838483;
+  margin-top: 25px
+}
+
 #sideTitle {
   display: flex;
   font-size: 26px;
@@ -153,6 +161,16 @@ body {
   flex-direction: column;
 }
 
+#mainNoteMessage {
+  font-size: 2rem;
+  font-weight: bold;
+  text-align: center;
+  align-items: center;
+  color: #838483;
+  margin-top: 350px;
+  
+}
+
 #noteTop {
   /* background-color: darkblue; */
   display: flex;
@@ -211,14 +229,6 @@ body {
   color: white;
 }
 
-
-#noteEdit {
-  /* background-color: blueviolet; */
-  margin: -1px;
-  /* margin-right: -1px; */
-
-}
-
 .ql-container.ql-snow {
   border: none !important;
   height: calc(100vh-100);
@@ -227,25 +237,15 @@ body {
   padding: 0;
 }
 
-ql-toolbar.ql-snow { 
-  border: none !important;
+.ql-toolbar.ql-snow { 
+  border-right: none !important;
+  border-left: none !important;
+  border-top: none !important;
+  border-bottom: 2px solid#EDEDED !important;
 }
 
-
-
-
-
-
-
-
-
-
-p {
-  margin: 0;
-  padding: 0;
-}
-
-a {
-  color: inherit;
-  text-decoration: none;
-}
+/* #noteEdit.ql-placeholder {
+  font-style: italic;
+  color: black;
+  font-size: xx-large;
+} */
