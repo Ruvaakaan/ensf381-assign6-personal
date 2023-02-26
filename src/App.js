@@ -11,6 +11,8 @@ function App()
   const [noteList, setNoteList] = useState([]);
   const [currentNote, setCurrentNote] = useState(false);
   const [newNoteAdded, setnewNoteAdded] = useState(false);
+  const [enableSide, setEnableSide] = useState(true)
+  const [mainWidth, setMainWidth] = useState("100%");
 
   function addNote()
   {
@@ -24,7 +26,6 @@ function App()
 
     setNoteList([newNote, ...noteList]);
     setnewNoteAdded(true);
-
   };  
 
   function deleteNote(deleteId)
@@ -32,18 +33,25 @@ function App()
     const answer = window.confirm("Are you sure you want to delete this note?");
     if(answer) 
     {
-    setNoteList(noteList.filter((note) => note.id != deleteId));
+      setNoteList(noteList.filter((note) => note.id != deleteId));
     }
+    
   }
 
-  // function getCurrentNote() 
-  // {
-  //   return noteList.find((note) => note.id == currentNote);
-  // }
+  function getCurrentNote() 
+  {
+    return noteList.find((note) => note.id == currentNote);
+  }
 
   function saveNote() 
   {
     return;
+  }
+
+  function toggleSide() 
+  {
+    setEnableSide(!enableSide);
+    setMainWidth({ width: !enableSide ? "83%" : "100%" });
   }
 
   return (
@@ -52,15 +60,11 @@ function App()
         <div id="title">Lotion</div>
         <div id="subTitle">Like Notion, but worse.</div>
         <div id="icon">
-          <button id="enableSide">&#9776;</button>
+          <button id="enableSide" onClick={toggleSide}>&#9776;</button>
         </div>
       </div>
       <div id="middle">
-        {/* <BrowserRouter>
-          <Routes>
-            <Route path="/users/:userId" element={<User />}></Route>
-          </Routes>
-        </BrowserRouter> */}
+        {enableSide && (
         <Side 
           noteList={noteList} 
           addNote={addNote}
@@ -68,12 +72,15 @@ function App()
           setCurrentNote={setCurrentNote}
           newNoteAdded={newNoteAdded}
         ></Side>
+        )}
         <Main 
           noteList={noteList} 
           deleteNote={deleteNote}
-          // getCurrentNote={getCurrentNote()}
+          getCurrentNote={getCurrentNote}
           saveNote={saveNote}
           newNoteAdded={newNoteAdded}
+          style={{ width: mainWidth }}
+          enableSide={enableSide}
         ></Main>
       </div>
     </>

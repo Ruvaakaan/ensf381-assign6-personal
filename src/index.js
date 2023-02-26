@@ -5,11 +5,20 @@ import App from './App';
 import Side from "./Side";
 import Main from "./Main";
 import reportWebVitals from './reportWebVitals';
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <App />
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Navigate to = "/note"></Navigate>}></Route>
+        <Route path="/note" element={<App />}></Route>
+        <Route path="/note/:id" element={<App />}></Route>
+        <Route path="/note/:id/edit" element={<App />}></Route>
+      </Routes>
+    </BrowserRouter>
   </React.StrictMode>
 );
 
