@@ -1,18 +1,49 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import uuid from "react-uuid";
 import Side from "./Side";
 import Main from "./Main";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-
-
+import { BrowserRouter, Routes, Route, useNavigate} from "react-router-dom";
 
 function App() 
 {
-  const [noteList, setNoteList] = useState([]);
+  const [noteList, setNoteList] = useState(
+    localStorage.noteList ? JSON.parse(localStorage.noteList) : []
+  );
+
   const [currentNote, setCurrentNote] = useState(false);
+
+  useEffect(() => {
+    setNoteList(localStorage.noteList ? JSON.parse(localStorage.noteList) : []);
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem("noteList", JSON.stringify(noteList));
+  }, [noteList]);
+
   const [newNoteAdded, setnewNoteAdded] = useState(false);
   const [enableSide, setEnableSide] = useState(true)
   const [mainWidth, setMainWidth] = useState("100%");
+  const [text, setText] = useState("")
+  // const navigate = useNavigate();
+
+  const saveNote = (updatedNote) => {
+    const updatedNotesArr = noteList.map((note) => {
+      if (note.id === updatedNote.id) {
+        return updatedNote;
+      }
+      else{
+        return note;
+      }
+
+    });
+
+    setNoteList(updatedNotesArr);
+    // console.log(noteList);
+  };
+
+  const textChange = (bodyText) => {
+    setText(bodyText);
+  }
 
   function addNote()
   {
@@ -20,9 +51,9 @@ function App()
       id: uuid(),
       title: "Untitled",
       body: " ",
-      lastModified: Date.now()
+      date: Date.now()
     };
-    console.log(newNote);
+    // console.log(newNote);
 
     setNoteList([newNote, ...noteList]);
     setnewNoteAdded(true);
@@ -34,18 +65,14 @@ function App()
     if(answer) 
     {
       setNoteList(noteList.filter((note) => note.id != deleteId));
+      localStorage.removeItem(currentNote.id);
+      // navigate(`/notes`);
     }
-    
   }
 
   function getCurrentNote() 
   {
     return noteList.find((note) => note.id == currentNote);
-  }
-
-  function saveNote() 
-  {
-    return;
   }
 
   function toggleSide() 
@@ -71,17 +98,21 @@ function App()
           currentNote={currentNote}
           setCurrentNote={setCurrentNote}
           newNoteAdded={newNoteAdded}
+          textChange={textChange}
+          text={text}
         ></Side>
         )}
-        <Main 
+        {noteList.map((note) => (note.id === currentNote && (<Main 
+          note={note}
+          key = {note.id}
           noteList={noteList} 
           deleteNote={deleteNote}
           getCurrentNote={getCurrentNote}
           saveNote={saveNote}
           newNoteAdded={newNoteAdded}
-          style={{ width: mainWidth }}
           enableSide={enableSide}
-        ></Main>
+          currentNote={currentNote}
+        ></Main>)))}
       </div>
     </>
   );

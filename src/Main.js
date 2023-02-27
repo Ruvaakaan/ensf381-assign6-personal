@@ -1,89 +1,113 @@
-import { useState } from 'react';
-import ReactQuill from 'react-quill';
-import 'react-quill/dist/quill.snow.css';
-import { FaCalendarAlt } from 'react-icons/fa';
+import { useState, useEffect } from "react";
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
 
+function Main({
+  noteList,
+  saveNote,
+  deleteNote,
+  newNoteAdded,
+  enableSide,
+  getCurrentNote,
+  currentNote,
+  note,
+}) {
+  const [noteContent, setNoteContent] = useState("");
+  const [date, setDate] = useState(Date.now());
+  const [title, setTitle] = useState("");
 
-function Main({noteList, saveNote, deleteNote, newNoteAdded, style, enableSide, getCurrentNote})
-{
-
-  const [noteContent, setNoteContent] = useState('');
-  const [date, setDate] = useState(new Date());
+  const handleTitleChange = (event) => {
+    setTitle(event.target.value);
+  };
 
   const handleChange = (value) => {
     setNoteContent(value);
   };
 
-  const handleDateChange = (event) => {
-    setDate(new Date(event.target.value));
+  const handleSaveNote = () => {
+    console.log(typeof date);
+    const note = {
+      id: currentNote,
+      title: document.getElementById("noteTopText").value,
+      date: date,
+      body: noteContent,
+    };
+    saveNote(note);
   };
 
   if (!newNoteAdded || noteList.length == 0) {
     return (
-      <div id="mainBox" style={enableSide ? style : {width: '100%'}}>
+      <div
+        id="mainBox"
+        style={enableSide ? { width: "100%" } : { width: "100%" }}
+      >
         <div id="mainNoteMessage">Select a note, or create a new one.</div>
       </div>
     );
   }
 
 
+  
+
+
   return (
     <>
-        <div id="mainBox" style={enableSide ? style : {width: '100%'}}>
-            <div id="noteTop">
-              <div id="leftTop">
-                <input type="text" id="noteTopText" placeholder="Untitled" autoFocus></input>
-                <div id="currentDate">{date.toLocaleString("en-US", {
-                    year: 'numeric',
-                    month: '2-digit',
-                    day: '2-digit',
-                    hour: 'numeric',
-                    minute: 'numeric',
-                    second: 'numeric',
-                    hour12: true
-                  }).replaceAll("/", "-")}
-                  <button id="calendarButton">
-                    <FaCalendarAlt></FaCalendarAlt>
-                    <input
-                      type="datetime-local"
-                      id="calendarInput"
-                      step="1"
-                      onChange={handleDateChange}
-                    ></input>
-                  </button>
-                </div>
-              </div>
+      <div
+        id="mainBox"
+        style={{
+          overflowY: "scroll",
+          height: "100vh",
+          ...(enableSide ? { width: "100%" } : { width: "100%" }),
+        }}
+      >
+        <div id="noteTop">
+          <div id="leftTop">
+            <input
+              type="text"
+              id="noteTopText"
+              placeholder="Untitled"
+              autoFocus
+            ></input>
 
+            <div id="currentDate">
+              <input
+                id="calendarbutton"
+                type="datetime-local"
+                defaultValue={new Date(note.date - 25200000).toISOString().slice(0, 19)}
+                onChange={(e) => setDate(Date.parse(e.target.value))}
+              />
+            </div>
+          </div>
 
-              <div id="rightTop">
-                <button
-                  onClick={saveNote}
-                  id="saveNote"
-                >Save</button>
-               
-                <button
-                  onClick={() => deleteNote(getCurrentNote().id)}
-                  id="deleteNote"
-                >Delete</button>
-              </div>
-            </div>
-             
-            <div id="noteEdit">
-              <ReactQuill
-                placeholder="Write your note here..."
-                value={noteContent}
-                onChange={handleChange}
-              ></ReactQuill>
-            </div>
+          <div id="rightTop">
+            <button onClick={handleSaveNote} id="saveNote">
+              Save
+            </button>
+
+            <button
+              onClick={() => {
+                const currentNote = getCurrentNote();
+                if (currentNote) {
+                  deleteNote(currentNote.id);
+                }
+              }}
+              id="deleteNote"
+            >
+              Delete
+            </button>
+          </div>
         </div>
+
+        <div id="noteEdit">
+          <ReactQuill
+            placeholder="Write your note here..."
+            value={noteContent}
+            onChange={handleChange}
+          ></ReactQuill>
+        </div>
+      </div>
     </>
   );
 }
 
-
 export default Main;
-
-
-
-
-

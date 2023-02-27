@@ -13,10 +13,10 @@ root.render(
   <React.StrictMode>
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Navigate to = "/note"></Navigate>}></Route>
-        <Route path="/note" element={<App />}></Route>
-        <Route path="/note/:id" element={<App />}></Route>
-        <Route path="/note/:id/edit" element={<App />}></Route>
+        <Route path="/" element={<Navigate to = "/notes"></Navigate>}></Route>
+        <Route path="/notes" element={<App />}></Route>
+        <Route path="/notes/:id" element={<App />}></Route>
+        <Route path="/notes/:id/edit" element={<App />}></Route>
       </Routes>
     </BrowserRouter>
   </React.StrictMode>

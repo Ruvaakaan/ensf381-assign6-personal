@@ -1,70 +1,95 @@
 import { useEffect, useState } from "react";
 import uuid from "react";
-import { useParams } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
 
-function Side({noteList, addNote, currentNote, setCurrentNote, newNoteAdded}) 
-{
-  const {noteId} = useParams();
+function Side({
+  noteList,
+  addNote,
+  currentNote,
+  setCurrentNote,
+  newNoteAdded,
+  textChange,
+  text,
+}) {
+  const navigate = useNavigate();
+  const { noteId } = useParams();
 
   useEffect(() => {
     const index = Number(noteId) - 1;
-    if(index >= 0)
-    {
-      setCurrentNote(noteList[index].id)
+    if (index >= 0) {
+      setCurrentNote(noteList[index].id);
     }
+  }, [setCurrentNote, noteList, useParams]);
 
-  }, [setCurrentNote, noteList, useParams])
+  const options = {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+    hour: "numeric",
+    minute: "numeric",
+  };
+
+  const formatDate = (when) => {
+    const formatted = new Date(when).toLocaleString("en-US", options);
+    if (formatted === "Invalid Date") {
+      return "";
+    }
+    return formatted;
+  };
 
   if (!newNoteAdded || noteList.length == 0) {
     return (
-
       <div id="sideBox">
         <div id="sideTitle">
           &nbsp;Notes
-          <button 
-            onClick={addNote}
-            id="addNote"
-          >+</button>
+          <button onClick={addNote} id="addNote">
+            +
+          </button>
         </div>
         <div id="sideNoteMessage">No Note Yet.</div>
       </div>
-
     );
   }
-  
+
   return (
     <>
       <div id="sideBox">
         <div id="sideTitle">
           &nbsp;Notes
-          <button 
-            onClick={addNote}
-            id="addNote"
-          >+</button>
+          <button onClick={addNote} id="addNote">
+            +
+          </button>
         </div>
-        
+
+        <div
+          id="noteListContainer"
+          style={{ overflowY: "scroll", height: "100vh" }}
+        >
           {noteList.map((note) => (
             <div
-              key = {note.id}
+              key={note.id}
               className={`sideData ${note.id == currentNote && "active"}`}
-              onClick={() => {setCurrentNote(note.id)}}>
+              onClick={() => {
+                setCurrentNote(note.id);
+                // navigate(`/notes/${note.id}`);
+              }}
+            >
               <div id="noteTitle">{note.title}</div>
-              <div id="lastModified">{new Date(note.lastModified).toLocaleString('en-US', {
-                month: 'long',
-                day: 'numeric',
-                year: 'numeric',
-                hour: 'numeric',
-                minute: 'numeric',
-                hour12: true
-              })}
-              </div>
-              <div id="noteBody">{note.body.substr(0, 100) + "..."}</div>
+              <div id="datetime">{formatDate(note.date)}</div>
+              <ReactQuill
+                readOnly={true}
+                id="sideBody"
+                modules={{toolbar: false}}
+                value={note.body.slice(0, 50) + "..."}
+              ></ReactQuill>
             </div>
           ))}
+        </div>
       </div>
     </>
-  )
-
+  );
 }
 
 export default Side;
