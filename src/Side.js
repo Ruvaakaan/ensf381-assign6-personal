@@ -68,12 +68,12 @@ function Side({
           style={{ overflowY: "scroll", height: "100vh" }}
         >
           {noteList.map((note) => (
+            <Link to={`/notes/${note.id}/edit`} style={{ textDecoration: 'none', color: 'inherit' }}>
             <div
               key={note.id}
               className={`sideData ${note.id == currentNote && "active"}`}
               onClick={() => {
                 setCurrentNote(note.id);
-                // navigate(`/notes/${note.id}`);
               }}
             >
               <div id="noteTitle">{note.title}</div>
@@ -81,10 +81,11 @@ function Side({
               <ReactQuill
                 readOnly={true}
                 id="sideBody"
-                modules={{toolbar: false}}
+                modules={{ toolbar: false }}
                 value={note.body.slice(0, 50) + "..."}
               ></ReactQuill>
             </div>
+            </Link>
           ))}
         </div>
       </div>

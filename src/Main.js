@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
+import { useNavigate } from "react-router-dom";
 
 function Main({
   noteList,
@@ -15,6 +16,15 @@ function Main({
   const [noteContent, setNoteContent] = useState("");
   const [date, setDate] = useState(Date.now());
   const [title, setTitle] = useState("");
+  const [editing, setEditing] = useState(false);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    console.log(getCurrentNote().body);
+    console.log(getCurrentNote().title);
+    setNoteContent(getCurrentNote().body);
+    setTitle(getCurrentNote().title);
+  }, [currentNote]);
 
   const handleTitleChange = (event) => {
     setTitle(event.target.value);
@@ -22,6 +32,11 @@ function Main({
 
   const handleChange = (value) => {
     setNoteContent(value);
+  };
+
+  const handleEdit = () => {
+    setEditing(false);
+    navigate(`/notes/${currentNote}/edit`); 
   };
 
   const handleSaveNote = () => {
@@ -32,7 +47,9 @@ function Main({
       date: date,
       body: noteContent,
     };
+    navigate(`/notes/${currentNote}`); 
     saveNote(note);
+    setEditing(true);
   };
 
   if (!newNoteAdded || noteList.length == 0) {
@@ -45,10 +62,6 @@ function Main({
       </div>
     );
   }
-
-
-  
-
 
   return (
     <>
@@ -66,6 +79,8 @@ function Main({
               type="text"
               id="noteTopText"
               placeholder="Untitled"
+              value={title}
+              onChange={handleTitleChange}
               autoFocus
             ></input>
 
@@ -73,16 +88,24 @@ function Main({
               <input
                 id="calendarbutton"
                 type="datetime-local"
-                defaultValue={new Date(note.date - 25200000).toISOString().slice(0, 19)}
+                defaultValue={new Date(note.date - 25200000)
+                  .toISOString()
+                  .slice(0, 19)}
                 onChange={(e) => setDate(Date.parse(e.target.value))}
               />
             </div>
           </div>
 
           <div id="rightTop">
-            <button onClick={handleSaveNote} id="saveNote">
-              Save
-            </button>
+            {editing ? (
+              <button onClick={handleEdit} id="editNote">
+                Edit
+              </button>
+            ) : (
+              <button onClick={handleSaveNote}  id="saveNote">
+                Save
+              </button>
+            )}
 
             <button
               onClick={() => {
@@ -98,13 +121,15 @@ function Main({
           </div>
         </div>
 
-        <div id="noteEdit">
-          <ReactQuill
-            placeholder="Write your note here..."
-            value={noteContent}
-            onChange={handleChange}
-          ></ReactQuill>
-        </div>
+        {!editing ? (
+          <div id="noteEdit">
+            <ReactQuill
+              placeholder="Write your note here..."
+              value={noteContent}
+              onChange={handleChange}
+            ></ReactQuill>
+          </div>
+        ) : (<div id="newNoteContent" dangerouslySetInnerHTML={{__html: noteContent}}></div>)}
       </div>
     </>
   );
